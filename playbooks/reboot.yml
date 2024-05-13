@@ -1,0 +1,10 @@
+---
+# ansible-playbook -i inventories/twins_office --extra-vars "target=twins_drones username=pi" playbooks/reboot.yml -K
+- hosts: "{{target}}"
+  vars:
+    target: "all"
+  remote_user: "{{username}}"
+  become: yes
+  tasks:
+    - name: "reboot the system "
+      command: reboot

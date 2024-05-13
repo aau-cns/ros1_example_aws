@@ -1,0 +1,30 @@
+########### Quadcopter ############
+[quadcopters]
+q01 ansible_host=192.168.0.200
+#q02 ansible_host=192.168.0.201
+
+[quadcopters:vars]
+robot_name=Quadcopter
+username=pi
+additional_packages=[]
+
+
+########### BASESTATION ############
+[basestations]
+host ansible_connection=local
+
+[basestations:vars]
+
+robot_name=Basestation
+username=[]
+additional_packages=[]
+
+########### Zeros ############
+[zeros]
+z01 ansible_host=192.168.1.108
+#q02 ansible_host=192.168.0.201
+
+[zeros:vars]
+robot_name=Quadcopter
+username=pi
+additional_packages=[]

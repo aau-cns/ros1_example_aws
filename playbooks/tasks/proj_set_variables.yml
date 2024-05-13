@@ -1,0 +1,14 @@
+---
+- fail:
+    msg: "Variable '{{ item }}' is not defined"
+  when: item not in vars
+  with_items:
+    - proj_name
+    - robot_name
+    - username
+
+- name: Set project variables
+  set_fact:
+    proj_src_dir: '../../{{ proj_name }}/machines/{{ robot_name }}/'
+    proj_dest_dir: '/home/{{ username }}/{{ proj_name }}/'
+

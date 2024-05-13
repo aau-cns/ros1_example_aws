@@ -1,0 +1,22 @@
+---
+# ansible-playbook -i inventories/twins_office --extra-vars "target=twins_basestation username=pi" playbooks/setup_twins_drones.yml -K
+- hosts: "{{target}}"
+  vars:
+    target: "all"
+    ros_version: "noetic"
+  remote_user: "{{username}}"
+  become: yes
+  tasks:
+
+  - name: Install the package tmux
+    apt:
+      name: tmux
+    
+  - name: Install the package libtool
+    apt:
+      name: libtool 
+      
+  - name: Install the package ros-xxx-eigen-conversions
+    apt:
+      name: ros-{{ros_version}}-eigen-conversions
+      

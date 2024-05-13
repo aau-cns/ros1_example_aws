@@ -1,0 +1,23 @@
+---
+# ansible-playbook -i inventories/example_inventory --extra-vars "target=z01 username=pi" playbooks/project_stop.yml -K
+- hosts: "{{target}}"
+  gather_facts: no
+  vars:
+    target: "all"
+  remote_user: "{{username}}"
+  environment:
+    LC_ALL: C.UTF-8
+  tasks:
+
+    # Stop 
+  - name: "Stop the execution of the mission."
+    shell: tmux send-keys -t robot_session C-c; sleep 3
+    tags:
+      - stop
+      
+    # Kill
+  - name: "kill tmux session."
+    shell: tmux kill-session -t robot_session 
+    ignore_errors: yes
+    tags:
+      - kill

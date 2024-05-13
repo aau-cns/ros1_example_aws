@@ -1,0 +1,162 @@
+---
+# required arguments: proj_name [target [ros_master_ip]]  [--tags]
+- hosts: "{{target}}"
+  gather_facts: no
+  vars:
+    target: "all"
+    ros_master_ip: "{{ ansible_ssh_host }}"
+  remote_user: "{{username}}"
+  environment:
+    LC_ALL: C.UTF-8
+  tasks:
+    # defines proj_dest_dir, proj_src_dir using username, proj_name and robot_name
+  - import_tasks: "tasks/proj_set_variables.yml"
+    tags:
+     - synchronize
+     - synchronize_deep
+     - install_requirements
+     - build
+     - reset
+     - start
+
+
+    # Synchronize
+  - name: "synchronize: Synchronize program directory"
+    synchronize:
+      src: "{{proj_src_dir}}"
+      dest: "{{proj_dest_dir}}"
+      delete: yes
+    tags:
+      - synchronize
+
+    # Synchronize Deep
+  - name: "synchronize_deep: Synchronize program directory"
+    synchronize:
+      src: "{{proj_src_dir}}"
+      dest: "{{proj_dest_dir}}"
+      delete: yes
+      copy_links: true
+    tags:
+      - synchronize_deep
+
+
+    # Install requirements
+  - name: "install: Check if install-requirements.sh file exists"
+    stat:
+       path: "{{ proj_dest_dir }}/install-requirements.sh"
+    register: requirements_stat_result 
+    tags:
+      - install_requirements
+
+  - name: "install: Install requirements"
+    command: "./install-requirements.sh"
+    when: requirements_stat_result.stat.exists == True
+    args: 
+      chdir: "{{ proj_dest_dir }}"
+    tags:
+      - install_requirements
+
+    # Build using the "build.sh"
+  - name: "build: Check if build.sh file exists"
+    stat:
+       path: "{{ proj_dest_dir }}/build.sh"
+    register: build_stat_result 
+    tags:
+      - build
+  - name: "build: Build"
+    command: "./build.sh"
+    register: build_output
+    args: 
+      chdir: "{{ proj_dest_dir }}"
+    ignore_errors: yes
+    tags:
+      - build
+    when: build_stat_result.stat.exists == True
+  - debug: var=build_output.stdout_lines
+    when: build_output.failed == true and build_stat_result.stat.exists == True
+    tags:
+      - build
+  - debug: var=build_output.stderr_lines
+    when: build_output.failed == true and build_stat_result.stat.exists == True
+    tags:
+      - build
+      
+    # RESET project using "reset.sh" in tmux session "robot_session"
+  - name: "reset: Check if reset.sh file exists"
+    stat:
+       path: "{{ proj_dest_dir }}/reset.sh"
+    register: reset_stat_result 
+    tags:
+      - reset
+
+  - name: "reset: Create a session in tmux."
+    shell: tmux new-session -d -s robot_session 
+    ignore_errors: yes
+    args:
+      chdir: "{{ proj_dest_dir }}"
+    tags:
+      - reset
+    when: reset_stat_result.stat.exists == True
+
+  - name: "reset: Stop  the execution of a program."
+    shell: tmux send-keys -t robot_session C-c; sleep 6
+    tags:
+      - reset
+    when: reset_stat_result.stat.exists == True
+   
+  - name: "reset: Go to directory"
+    shell: tmux send-keys -t robot_session 'cd {{ proj_dest_dir }}' Enter
+    tags:
+      - reset
+    when: reset_stat_result.stat.exists == True
+
+  
+  - name: "reset: reset a program in tmux."
+    shell: tmux send-keys -t robot_session 'source ./reset.sh' Enter
+    tags:
+      - reset
+    when: reset_stat_result.stat.exists == True
+    
+
+    # START project using "start.sh" in tmux session "robot_session"
+  - name: "start: Check if start.sh file exists"
+    stat:
+       path: "{{ proj_dest_dir }}/start.sh"
+    register: start_stat_result 
+    tags:
+      - start
+
+  - name: "start: Create a session in tmux."
+    shell: tmux new-session -d -s robot_session 
+    ignore_errors: yes
+    args:
+      chdir: "{{ proj_dest_dir }}"
+    tags:
+      - start
+    when: start_stat_result.stat.exists == True
+
+  - name: "start: Stop  the execution of aprogram."
+    shell: tmux send-keys -t robot_session C-c; sleep 3
+    tags:
+      - start
+    when: start_stat_result.stat.exists == True
+   
+  - name: "start: Go to directory"
+    shell: tmux send-keys -t robot_session 'cd {{ proj_dest_dir }}' Enter
+    tags:
+      - start
+    when: start_stat_result.stat.exists == True
+
+  - name: "start: Set environment variables (ROBOT_NAME, PROJ_NAME, INVENTORY_HOSTNAME, INVENTORY_IP)"
+    shell: tmux send-keys -t robot_session 'export ROBOT_NAME={{ robot_name }}; export PROJ_NAME={{ proj_name }}; export INVENTORY_HOSTNAME={{ inventory_hostname }}; export INVENTORY_IP={{ansible_ssh_host}}' Enter
+    tags:
+      - start
+    when: start_stat_result.stat.exists == True
+  
+  - name: "start: Start a program in tmux."
+    shell: tmux send-keys -t robot_session 'source ./start.sh {{ros_master_ip}}' Enter
+    tags:
+      - start
+    when: start_stat_result.stat.exists == True
+    
+   

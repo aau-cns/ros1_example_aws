@@ -1,0 +1,18 @@
+<package>
+  <name>bringup</name>
+  <version>0.1.0</version>
+  <description>A package that provides launch files</description>
+  <maintainer email="none@none.com">Maintained by Roland Jung</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website"></url>
+  <url type="bugtracker"></url>
+  <url type="repository"></url>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed after this package is compiled. -->
+
+</package>

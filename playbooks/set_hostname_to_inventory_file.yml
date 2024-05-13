@@ -1,0 +1,12 @@
+---
+# ansible-playbook -i inventories/twins_office --extra-vars "target=twins_drones username=pi" playbooks/set_hostname_to_inventory_file.yml -K
+# on ubuntu-server: sudo nano /etc/cloud/cloud.cfg -> set preserve_hostname from false to true
+- hosts: "{{target}}"
+  vars:
+    target: "all"
+  remote_user: "{{username}}"
+  become: yes
+  tasks:
+    - name: "Set system hostname to inventory_hostname"
+      command: hostnamectl set-hostname {{ inventory_hostname }}
+
