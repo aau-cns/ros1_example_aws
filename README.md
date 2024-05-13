@@ -1,6 +1,6 @@
 # example_aws
 
-In this project provides a template to manage robots with Ansible. Using the so-called 
+This project provides a template to manage robots with Ansible. Using the so-called 
 [ansible playbooks](./playbooks), we can modify the behavior and configuration of robots instead of modifying robots directly. This way robots can be easily reconfigured and cloned, thus the fleet will scale nicely.
 
 The interesting part in this repository is a method to manage and deploy
@@ -14,13 +14,13 @@ The suffic `_aws` stands for `ansible workspace`. Thus if you intend to create y
 In order to use those playbooks you will need to install `ansible` >= 2.4 with apt-get 
 `sudo apt  install ansible -y` (check the version with `ansible --version`). `rsync` is also needed to synchronize files with robots and is already included in the linux distributions. 
 
-**NOTE**: your remote machines need to be reachable via `ssh`. You need to [setup a ssh key](https://www.ssh.com/academy/ssh/copy-id). 
+**NOTE**: your remote machines need to be reachable via `ssh`. You need to [setup ssh keys](https://www.ssh.com/academy/ssh/copy-id). 
 
 ### Requirements on Machine
 
 * `ssh server`: must be running and the HOST need to be authorized.
 * `tmux`: missions will be running in a session called `robot_session`. 
-* `IP address`: the IP address needs to be known and in best case static. Scan the IP addressed in network by, e.g., `nmap -sn 192.168.1.0/24`.
+* `IP address`: the IP address needs to be known and in best case static. [Scan the IP addressed in network](https://www.redhat.com/sysadmin/quick-nmap-inventory) by, e.g., `nmap -sn 192.168.1.0/24` .
 * `username`: default is `pi`, but can be changed in inventory.
 
 
