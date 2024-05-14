@@ -172,11 +172,26 @@ Contribution to this example workspace are welcome.
 
 ## Authors and acknowledgment
 
-This project was developed by [Agata Barciś](https://scholar.google.com/citations?user=Ejr6ENAAAAAJ&hl=en) and [Michal Barciś](https://scholar.google.com/citations?user=uxgfg04AAAAJ&hl=en) during the doctoral school  [Karl Popper Kolleg on Networked Autonomous Aerial Vehicles (KPK-NAV)](https://www.aau.at/en/nav/) at the University of Klagenfurt. [Petra Madzin](https://scholar.google.com/citations?user=zmg8XtwAAAAJ&hl=en) and [Roland Jung](https://scholar.google.com/citations?hl=en&user=APlR1uUAAAAJ) contributed to the project at a later stage and Roland Jung modified slightly the structure of this `Ansible workspace`. 
+This project was developed by [Agata Barciś](https://scholar.google.com/citations?user=Ejr6ENAAAAAJ&hl=en) and [Michal Barciś](https://scholar.google.com/citations?user=uxgfg04AAAAJ&hl=en) during the doctoral school  [Karl Popper Kolleg on Networked Autonomous Aerial Vehicles (KPK-NAV)](https://www.aau.at/en/nav/) at the University of Klagenfurt. The full set of playbooks can be found  [here](https://gitlab.aau.at/aau-nav/development/ansible-playbooks). [Petra Madzin](https://scholar.google.com/citations?user=zmg8XtwAAAAJ&hl=en) and [Roland Jung](https://scholar.google.com/citations?hl=en&user=APlR1uUAAAAJ) contributed to the project at a later stage and Roland Jung modified slightly the structure of this `Ansible workspace`. 
 
 ## License
 The GNU General Public License GPLv3. *Sharing is caring*
 
 ## Project status
 
-Stall. 
+Done.
+
+## Usage for academic purposes
+
+If you use this software in an academic research setting, please cite the corresponding paper and consult the [LICENSE](./LICENSE) file for a detailed explanation.
+
+```latex
+@inproceedings{barcis2019,
+  author={Barciś, Agata and Barciś, Michał and Bettstetter, Christian},
+  booktitle={2019 International Symposium on Multi-Robot and Multi-Agent Systems (MRS)}, 
+  title={Robots that Sync and Swarm: A Proof of Concept in ROS 2}, 
+  year={2019},
+  pages={98-104},
+  doi={10.1109/MRS.2019.8901095}}
+}
+```
