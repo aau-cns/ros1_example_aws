@@ -1,3 +1,6 @@
+# proj_name: name of the ansible workspace (e.g., example_aws)
+# robot_name: machine name (folder name within the "machines" directory)
+# username: username on the machine (e.g., "pi")
 ---
 - fail:
     msg: "Variable '{{ item }}' is not defined"
@@ -7,8 +10,9 @@
     - robot_name
     - username
 
+
 - name: Set project variables
   set_fact:
-    proj_src_dir: '../../{{ proj_name }}/machines/{{ robot_name }}/'
+    proj_src_dir: '../machines/{{ robot_name }}/'
     proj_dest_dir: '/home/{{ username }}/{{ proj_name }}/'
 
